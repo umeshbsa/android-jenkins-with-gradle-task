@@ -60,11 +60,9 @@
   
   **Step 3: Write Jenkins script with all given task from app.gradle file**
   * Go to Jenkins console and Open Build section where we have write all script code in Command edit box.
-   <img src="https://github.com/umeshbsa/android-setup-jenkins-automation/blob/master/jenkins0.png"/><br/>
+   <img src="https://github.com/umeshbsa/android-jenkins-with-gradle-task/blob/master/jenkins0.png"/><br/>
 ```
 #!/bin/bash
-
-////////////// All Input
 
 APP_NAME="Jenkins_Gradle_Task" // As your wish
 APPLICATION_ID="com.app.gradle" // As your wish
