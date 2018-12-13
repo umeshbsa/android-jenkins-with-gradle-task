@@ -1,0 +1,202 @@
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.app.gradle"
+        minSdkVersion 19
+        targetSdkVersion 27
+    }
+
+    def appName = 'Jenkinstask'
+    flavorDimensions "jenkinstask"
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def name = appName + "_" + getCurrentFlavor() + "_" + variant.mergedFlavor.versionName + "_" +
+                            variant.mergedFlavor.versionCode + "_" +
+                            getDate() + ".apk";
+                    output.outputFileName = name
+                }
+            }
+
+        }
+        debug {
+            debuggable true
+        }
+    }
+
+    def keyStoreFile = "/"
+    task(keyStoreFileTask) {
+        if (project.hasProperty("keystorefile")) {
+            keyStoreFile = keystorefile;
+        }
+    }
+
+    def keyStorePassword = ""
+    task(keyStorePasswordTask) {
+        if (project.hasProperty("keystorepassword")) {
+            keyStorePassword = keystorepassword;
+        }
+    }
+
+    def keyStoreAlias = ""
+    task(keyStoreAliasTask) {
+        if (project.hasProperty("keystorealias")) {
+            keyStoreAlias = keystorealias;
+        }
+    }
+
+    def keyPswrd = ""
+    task(keyPasswordTask) {
+        if (project.hasProperty("keypassword")) {
+            keyPswrd = keypassword;
+        }
+    }
+
+    signingConfigs {
+        debugConfig {
+            storeFile file('/Users/jenkins/.android/debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+
+        releaseConfig {
+            storeFile file(keyStoreFile)
+            storePassword keyStorePassword
+            keyAlias keyStoreAlias
+            keyPassword keyPswrd
+        }
+    }
+
+    task(appNameTask) {
+        if (project.hasProperty("appname")) {
+            appName = appname;
+        }
+    }
+
+    def appApplicationId = "com.app.gradle.task"
+    task(applicationIdTask) {
+        if (project.hasProperty("applicationid")) {
+            appApplicationId = applicationid;
+        }
+    }
+
+    def appVersionName = "1.0.0"
+    task(versionNameTask) {
+        if (project.hasProperty("versionname")) {
+            appVersionName = versionname;
+        }
+    }
+
+    def appVersionCode = 1
+    task(versionCodeTask) {
+        if (project.hasProperty("versioncode")) {
+            appVersionCode = Integer.parseInt(versioncode); ;
+        }
+    }
+
+    def primaryColor = '"#EFBF20"'
+    task(primaryColorTask) {
+        if (project.hasProperty("primarycolor")) {
+            primaryColor = primarycolor;
+        }
+    }
+
+    def baseUrl = '"https://deerwoodbank-merchant.rdcselect.com/"'
+    task(baseUrlTask) {
+        if (project.hasProperty("baseurl")) {
+            baseUrl = baseurl;
+        }
+    }
+
+    def appIcon = '@mipmap/ic_launcher'
+    task(appIconTask) {
+        if (project.hasProperty("appicon")) {
+            appIcon = appicon;
+        }
+    }
+
+    def bannerSplash = '@drawable/icon_splash'
+    task(bannerSplashTask) {
+        if (project.hasProperty("bannersplash")) {
+            bannerSplash = bannersplash;
+        }
+    }
+
+    productFlavors {
+        production {
+            applicationId appApplicationId
+            signingConfig signingConfigs.releaseConfig
+            buildConfigField "String", "BASE_URL", baseUrl
+            buildConfigField "String", "PRIMARY_COLOR", primaryColor
+            manifestPlaceholders = [
+                    appName: appName,
+                    appIcon: appIcon
+            ]
+            resValue "drawable", "icon_splash", bannerSplash
+
+            versionCode appVersionCode
+            versionName appVersionName
+        }
+
+        uat {
+            applicationId appApplicationId
+            signingConfig signingConfigs.debugConfig
+            buildConfigField "String", "BASE_URL", baseUrl
+            buildConfigField "String", "PRIMARY_COLOR", primaryColor
+            manifestPlaceholders = [
+                    appName: appName,
+                    appIcon: appIcon
+            ]
+            // Do not change this key 'll_app_key'. It's define from localytics api
+            resValue "drawable", "icon_splash", bannerSplash
+            versionCode appVersionCode
+            versionName appVersionName
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'MissingTranslation'
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+}
+
+// Used for create apk with flavor name
+def getCurrentFlavor() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    Pattern pattern;
+    pattern = Pattern.compile("assemble(\\w+)(Release|Debug)")
+    Matcher matcher = pattern.matcher(tskReqStr)
+    if (matcher.find()) {
+        return matcher.group(1).toLowerCase()
+    } else {
+        println "NO MATCH FOUND"
+        return "";
+    }
+}
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy-MM-dd')
+    return formattedDate
+}
