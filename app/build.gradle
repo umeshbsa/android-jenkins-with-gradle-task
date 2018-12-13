@@ -64,7 +64,7 @@ android {
 
     signingConfigs {
         debugConfig {
-            storeFile file('/Users/jenkins/.android/debug.keystore')
+            storeFile file('/home/kiwitech/.android/debug.keystore')
             keyAlias 'androiddebugkey'
             keyPassword 'android'
             storePassword 'android'
@@ -105,14 +105,14 @@ android {
         }
     }
 
-    def primaryColor = '"#EFBF20"'
+    def primaryColor = '"#FF00FF"'
     task(primaryColorTask) {
         if (project.hasProperty("primarycolor")) {
             primaryColor = primarycolor;
         }
     }
 
-    def baseUrl = '"https://deerwoodbank-merchant.rdcselect.com/"'
+    def baseUrl = '"https://app.com"'
     task(baseUrlTask) {
         if (project.hasProperty("baseurl")) {
             baseUrl = baseurl;
@@ -126,10 +126,10 @@ android {
         }
     }
 
-    def bannerSplash = '@drawable/icon_splash'
-    task(bannerSplashTask) {
-        if (project.hasProperty("bannersplash")) {
-            bannerSplash = bannersplash;
+    def splashLogo = '@drawable/splash_logo'
+    task(splashLogoTask) {
+        if (project.hasProperty("splashlogo")) {
+            splashLogo = splashlogo;
         }
     }
 
@@ -143,7 +143,7 @@ android {
                     appName: appName,
                     appIcon: appIcon
             ]
-            resValue "drawable", "icon_splash", bannerSplash
+            resValue "drawable", "splash_logo", splashLogo
 
             versionCode appVersionCode
             versionName appVersionName
@@ -159,7 +159,7 @@ android {
                     appIcon: appIcon
             ]
             // Do not change this key 'll_app_key'. It's define from localytics api
-            resValue "drawable", "icon_splash", bannerSplash
+            resValue "drawable", "splash_logo", splashLogo
             versionCode appVersionCode
             versionName appVersionName
         }
