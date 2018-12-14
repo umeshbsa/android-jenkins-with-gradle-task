@@ -134,7 +134,7 @@ android {
     }
 
     productFlavors {
-        production {
+        prod {
             applicationId appApplicationId
             signingConfig signingConfigs.releaseConfig
             buildConfigField "String", "BASE_URL", baseUrl
@@ -149,16 +149,15 @@ android {
             versionName appVersionName
         }
 
-        uat {
+        qa {
             applicationId appApplicationId
             signingConfig signingConfigs.debugConfig
             buildConfigField "String", "BASE_URL", baseUrl
-            buildConfigField "String", "PRIMARY_COLOR", primaryColor
+            buildConfigField "String", "PRIMARY_COLOR", primaryColor // this is comes from task variable and this color used in SplashActivity as Runtime. So you can change color or image from jenkins command.
             manifestPlaceholders = [
                     appName: appName,
                     appIcon: appIcon
             ]
-            // Do not change this key 'll_app_key'. It's define from localytics api
             resValue "drawable", "splash_logo", splashLogo
             versionCode appVersionCode
             versionName appVersionName
