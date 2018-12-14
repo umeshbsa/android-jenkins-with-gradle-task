@@ -119,8 +119,14 @@ KEY_PASSWORD="123456" // As your wish in jks file setup
 * If you have any doubt to setup hockey app please follow this URL<br/>
   https://github.com/umeshbsa/android-setup-jenkins-automation
   
-  
-  
+**Step 5: Final Output from Jenkins Script**
+* This is a final output to created from Jenkins console APK. In this apk, We have changed header color and splash logo image from jenkins script. We can see below.
+```java
+   PRIMARY_COLOR='"#FF4081"' // As your wish
+   SPLASH_LOGO="/home/umesh/Desktop/splash_logo.png" // As your wish. Image name must be splash_logo
+```
+<img src="https://github.com/umeshbsa/android-jenkins-with-gradle-task/blob/master/jenkins1.png"/><br/>
+    
 #### Licence
 
     Copyright 2018 Umesh Kumar
