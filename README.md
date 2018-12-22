@@ -1,7 +1,7 @@
 ## android-jenkins-with-gradle-task
 
 **Step 1: Setup simple Jenkins script**
-* If you have any doubt to setuo simple jenkins please follow this URL<br/>
+* If you have any doubt to setup simple jenkins please follow this URL<br/>
   https://github.com/umeshbsa/android-setup-jenkins-automation
  
  **Step 2: Write task in app.gradle file**
