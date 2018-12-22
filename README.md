@@ -100,7 +100,7 @@ cp  $SPLASH_LOGO $DEST4
 
 #Start for prod release apk
 
-KEY_STORE_FILE="/home/kiwitech/Documents/key1.jks" // As your wish in jks file setup
+KEY_STORE_FILE="/home/Documents/key1.jks" // As your wish in jks file setup
 KEY_STORE_PASSWORD="654321" // As your wish in jks file setup
 KEY_STORE_ALIAS="cbs1" // As your wish in jks file setup
 KEY_PASSWORD="123456" // As your wish in jks file setup
